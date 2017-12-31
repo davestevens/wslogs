@@ -9,7 +9,7 @@ Run a server locally:
 Include a script tag into the webpage you want to remote log from:
 ```
 <script src="http://localhost:9000/client.js"
-        data-host="http://localhost:9000"></script>
+        data-host="http://localhost:9000/log"></script>
 <script>
 ```
 **NB: Be sure to update the host to where it can be accessed from**

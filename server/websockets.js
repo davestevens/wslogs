@@ -1,11 +1,14 @@
 const socketIO = require("socket.io");
+let clientCount = 0;
 
 module.exports = (server) => {
     const io = socketIO(server);
+    const logNamespace = io.of("/log");
     const viewNamespace = io.of("/view");
 
-    io.on("connection", (socket) => {
+    logNamespace.on("connection", (socket) => {
         console.log("connection", socket.id);
+        viewNamespace.emit("clientCount", ++clientCount);
 
         socket.on("message", (data) => {
             console.log("socket sent message", socket.id, JSON.stringify(data));
@@ -14,15 +17,13 @@ module.exports = (server) => {
 
         socket.on("disconnect", () => {
             console.log("socket disconnected", socket.id);
+            viewNamespace.emit("clientCount", --clientCount);
         });
     });
 
     viewNamespace.on("connection", (socket) => {
         console.log("view connection", socket.id);
-
-        socket.on("identifyClients", () => {
-            io.emit("identify");
-        });
+        socket.emit("clientCount", clientCount);
 
         // TODO: control flow of data (pause/resume)?
         // TODO: fetch filtered/paginated data?
