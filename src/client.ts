@@ -8,17 +8,17 @@ const originalConsoleError = originalConsole.error;
 const host = (document.currentScript as HTMLElement).dataset["host"];
 
 window.console.log = function(message?: any, ...optionalParams: any[]): void {
-    client.write(message, { params: optionalParams });
+    client.write({ message, params: optionalParams });
     originalConsoleLog(message, ...optionalParams);
 }
 
 window.console.warn = function(message?: any, ...optionalParams: any[]): void {
-    client.write(message, { type: wslogs.Types.WARN, params: optionalParams });
+    client.write({ message, type: wslogs.Types.WARN, params: optionalParams });
     originalConsoleWarn(message, ...optionalParams);
 }
 
 window.console.error = function(message?: any, ...optionalParams: any[]): void {
-    client.write(message, { type: wslogs.Types.ERROR, params: optionalParams });
+    client.write({ message, type: wslogs.Types.ERROR, params: optionalParams });
     originalConsoleError(message, ...optionalParams);
 }
 

@@ -38,14 +38,14 @@ export class Client {
         this.status = Status.DISCONNECTED;
     }
 
-    public write(message: string, data: IMessage) {
+    public write(data: IMessage) {
         if (!this.socket) {
             return;
         }
         data.type = data.type || Types.LOG;
         data.time = data.time || +Date.now();
         data.params = data.params || [];
-        this.socket.emit("message", { message, data });
+        this.socket.emit("message", data);
     }
 
     private onConnect = () => {

@@ -2,19 +2,20 @@ const path = require("path");
 
 module.exports = {
   entry: {
-      "client": "./src/client.ts"
+      "client": "./src/client.ts",
+      "server": "./src/server.tsx"
   },
   module: {
     rules: [
       {
-        test: /\.ts?$/,
+        test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/
       }
     ]
   },
   resolve: {
-    extensions: [ ".ts", ".js" ]
+    extensions: [ ".tsx", ".ts", ".js" ]
   },
   output: {
     filename: "[name].js",
