@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Client, IMessage } from "../Client/index";
 import { Wrapper } from "./containers/Wrapper";
-import { LogList } from "./components/LogList";
+import { LogListWrapper } from "./components/LogListWrapper";
 import { ILogProps } from "./components/Log";
 
 interface IAppState {
@@ -35,7 +35,7 @@ class App extends React.Component<null, IAppState> {
 
         return (
             <Wrapper clientCount={ clientCount }>
-                <LogList logs={ logs } />
+                <LogListWrapper logs={ logs } />
             </Wrapper>
         );
     }
