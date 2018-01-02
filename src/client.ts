@@ -1,25 +1,23 @@
 import * as wslogs from "./Client/index";
 
 const client = new wslogs.Client();
-const originalConsole = window.console || { log: () => {}, warn: () => {}, error: () => {}};
-const originalConsoleLog = originalConsole.log;
-const originalConsoleWarn = originalConsole.warn;
-const originalConsoleError = originalConsole.error;
 const host = (document.currentScript as HTMLElement).dataset["host"];
 
-window.console.log = function(message?: any, ...optionalParams: any[]): void {
-    client.write({ message, params: optionalParams });
-    originalConsoleLog(message, ...optionalParams);
-}
+const console = (((originalConsole: { log: Function, warn: Function, error: Function}) => ({
+    log: (message?: any, ...optionalParams: any[]) => {
+        originalConsole.log(message, ...optionalParams);
+        client.write({ message, params: optionalParams });
+    },
+    warn: (message?: any, ...optionalParams: any[]) => {
+        originalConsole.warn(message, ...optionalParams);
+        client.write({ message, type: wslogs.Types.WARN, params: optionalParams });
+    },
+    error: (message?: any, ...optionalParams: any[]) => {
+        originalConsole.error(message, ...optionalParams);
+        client.write({ message, type: wslogs.Types.ERROR, params: optionalParams });
+    }
+}))((window as any).console));
 
-window.console.warn = function(message?: any, ...optionalParams: any[]): void {
-    client.write({ message, type: wslogs.Types.WARN, params: optionalParams });
-    originalConsoleWarn(message, ...optionalParams);
-}
-
-window.console.error = function(message?: any, ...optionalParams: any[]): void {
-    client.write({ message, type: wslogs.Types.ERROR, params: optionalParams });
-    originalConsoleError(message, ...optionalParams);
-}
+(window as any).console = console;
 
 client.connect(host);
