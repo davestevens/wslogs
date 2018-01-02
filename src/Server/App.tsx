@@ -50,7 +50,7 @@ class App extends React.Component<null, IAppState> {
         const { logs } = this.state;
         const logsClone = logs.slice(0);
         logsClone.push(this.messageToLog(message));
-        this.setState({ logs: logsClone.slice(-20) });
+        this.setState({ logs: logsClone });
     }
 
     private messageToLog(message: { id: string, data: IMessage }): ILogProps {

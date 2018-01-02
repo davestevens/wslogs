@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Types } from "../../Client/index";
 import * as ListGroupItem from "react-bootstrap/lib/ListGroupItem";
+import * as Badge from "react-bootstrap/lib/Badge";
 
 export interface ILogProps {
     id: string;
@@ -18,20 +19,23 @@ const CLASS_LOOKUP = {
 
 export class Log extends React.Component<ILogProps, null> {
     public render(): JSX.Element {
-        const { id, type, time, message, params } = this.props;
+        const { id, type } = this.props;
         return (
-            <ListGroupItem bsStyle={ CLASS_LOOKUP[type] }
-                           header={ message }>
-                { JSON.stringify(params) }
-                <br />
-                { this.prettyPrintTime() } - { id }
+            <ListGroupItem bsStyle={ CLASS_LOOKUP[type] }>
+                <em>{ this.printTime() }</em> : { this.printMessage() }
+                <Badge pullRight>{ id }</Badge>
             </ListGroupItem>
         )
     }
 
-    private prettyPrintTime(): string {
+    private printTime(): string {
         const { time } = this.props;
         const date = new Date(time);
-        return date.toLocaleString();
+        return date.toISOString();
+    }
+
+    private printMessage(): string {
+        const { message, params } = this.props;
+        return `${ message } ${ params.join(" ") }`;
     }
 }
