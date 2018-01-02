@@ -23,7 +23,8 @@ Console logs will now be displayed both locally and remotely.
 ## Development
 
 - `npm install`
-- `npm run build` || `npm run build -- --watch`
-- `npm start`
+- `npm start:dev`
 
-- `npm run build:production`
+## Build output files
+
+- `npm run build`

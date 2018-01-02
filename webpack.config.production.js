@@ -3,14 +3,8 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: {
-      "client": [
-        "webpack-hot-middleware/client?reload=true",
-        "./src/client.ts"
-      ],
-      "server": [
-        "webpack-hot-middleware/client?reload=true",
-        "./src/server.tsx"
-      ]
+      "client": "./src/client.ts",
+      "server": "./src/server.tsx"
   },
   module: {
     rules: [
@@ -25,8 +19,11 @@ module.exports = {
     extensions: [ ".tsx", ".ts", ".js" ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
+    new webpack.DefinePlugin({
+      "process.env": {
+        "NODE_ENV": JSON.stringify(process.env.NODE_ENV || "production")
+      }
+    })
   ],
   output: {
     filename: "[name].js",

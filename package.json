@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "build": "webpack",
-    "build:production": "webpack -p"
+    "start:dev": "cross-env NODE_ENV=development node index",
+    "build": "webpack -p --config webpack.config.production.js"
   },
   "keywords": [],
   "author": "Dave Stevens",
@@ -16,13 +16,16 @@
     "@types/react-bootstrap": "^0.31.9",
     "@types/react-dom": "^16.0.3",
     "@types/socket.io-client": "^1.4.32",
+    "cross-env": "^5.1.3",
     "react": "^16.2.0",
     "react-bootstrap": "^0.31.5",
     "react-dom": "^16.2.0",
     "socket.io-client": "^2.0.4",
     "ts-loader": "^3.2.0",
     "typescript": "^2.6.2",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "webpack-dev-middleware": "^2.0.3",
+    "webpack-hot-middleware": "^2.21.0"
   },
   "dependencies": {
     "cors": "^2.8.4",
