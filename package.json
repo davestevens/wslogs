@@ -25,12 +25,15 @@
     "typescript": "^2.6.2",
     "webpack": "^3.10.0",
     "webpack-dev-middleware": "^2.0.3",
-    "webpack-hot-middleware": "^2.21.0"
+    "webpack-hot-middleware": "^2.21.0",
+    "whatwg-fetch": "^2.0.3"
   },
   "dependencies": {
+    "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
     "morgan": "^1.9.0",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "uuid": "^3.1.0"
   }
 }

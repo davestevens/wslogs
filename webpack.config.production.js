@@ -3,8 +3,14 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: {
-      "client": "./src/client.ts",
-      "server": "./src/server.tsx"
+      "client": [
+        "whatwg-fetch",
+        "./src/client.ts"
+      ],
+      "server": [
+        "whatwg-fetch",
+        "./src/server.tsx"
+      ]
   },
   module: {
     rules: [

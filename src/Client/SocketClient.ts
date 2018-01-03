@@ -1,21 +1,13 @@
 import * as io from "socket.io-client";
+import { IClient } from "./IClient";
 import { Status } from "./Status";
 import { Types } from "./Types";
 import { IMessage } from "./IMessage";
 
-export class Client {
-    public status: Status;
-    public host: string;
-    public socket: SocketIOClient.Socket;
+export class SocketClient implements IClient {
     public on: any;
 
-    constructor() {
-        this.status = Status.DISCONNECTED;
-        this.host = null;
-        this.socket = null;
-    }
-
-    public connect(host: string) {
+    public connect(host: string): void {
         if (this.status === Status.CONNECTED || this.status === Status.CONNECTING) {
             this.disconnect();
         }
@@ -32,13 +24,13 @@ export class Client {
         this.socket.on("error", this.onError);
     }
 
-    public disconnect() {
+    public disconnect(): void {
         this.socket && this.socket.disconnect();
         this.socket = null;
         this.status = Status.DISCONNECTED;
     }
 
-    public write(data: IMessage) {
+    public write(data: IMessage): void {
         if (!this.socket) {
             return;
         }
@@ -62,7 +54,11 @@ export class Client {
     }
 
     private onError = (error: object) => {
-        console.error(`Socket Error: ${ error }`)
+        console.error(`Socket Error: ${ error }`);
         this.disconnect();
     }
+
+    private status: Status = Status.DISCONNECTED;
+    private host: string = null;
+    private socket: SocketIOClient.Socket = null;
 }

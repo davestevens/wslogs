@@ -1,6 +1,7 @@
 import * as wslogs from "./Client/index";
 
-const client = new wslogs.Client();
+let client: wslogs.IClient;
+const kind = (document.currentScript as HTMLElement).dataset["kind"];
 const host = (document.currentScript as HTMLElement).dataset["host"];
 
 const console = (((originalConsole: { log: Function, warn: Function, error: Function}) => ({
@@ -19,5 +20,15 @@ const console = (((originalConsole: { log: Function, warn: Function, error: Func
 }))((window as any).console));
 
 (window as any).console = console;
+
+switch (kind) {
+    case "rest":
+    client = new wslogs.RESTClient();
+    break;
+    case "socket":
+    default:
+    client = new wslogs.SocketClient();
+    break;
+}
 
 client.connect(host);

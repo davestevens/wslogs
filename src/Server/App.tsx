@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Client, IMessage } from "../Client/index";
+import * as wslogs from "../Client/index";
 import { Wrapper } from "./containers/Wrapper";
 import { LogListWrapper } from "./components/LogListWrapper";
 import { ILogProps } from "./components/Log";
@@ -20,7 +20,7 @@ class App extends React.Component<null, IAppState> {
     }
 
     public componentDidMount(): void {
-        this.client = new Client();
+        this.client = new wslogs.SocketClient();
         this.client.connect("/view");
         this.client.on("clientCount", this.onClientCount);
         this.client.on("message", this.onMessage);
@@ -40,20 +40,20 @@ class App extends React.Component<null, IAppState> {
         );
     }
 
-    private client: Client;
+    private client: wslogs.SocketClient;
 
     private onClientCount = (clientCount: number): void => {
         this.setState({ clientCount });
     }
 
-    private onMessage = (message: { id: string, data: IMessage }): void => {
+    private onMessage = (message: { id: string, data: wslogs.IMessage }): void => {
         const { logs } = this.state;
         const logsClone = logs.slice(0);
         logsClone.push(this.messageToLog(message));
         this.setState({ logs: logsClone });
     }
 
-    private messageToLog(message: { id: string, data: IMessage }): ILogProps {
+    private messageToLog(message: { id: string, data: wslogs.IMessage }): ILogProps {
         return {
             id: message.id,
             message: message.data.message,

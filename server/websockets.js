@@ -1,4 +1,5 @@
 const socketIO = require("socket.io");
+const logEvents = require("./logevents");
 let clientCount = 0;
 
 module.exports = (server) => {
@@ -12,7 +13,7 @@ module.exports = (server) => {
 
         socket.on("message", (data) => {
             console.log("socket sent message", socket.id, JSON.stringify(data));
-            viewNamespace.emit("message", { id: socket.id, data });
+            logEvents.emit("message", { id: socket.id, data });
         });
 
         socket.on("disconnect", () => {
@@ -31,5 +32,9 @@ module.exports = (server) => {
         socket.on("disconnect", () => {
             console.log("view socket disconnected", socket.id);
         });
-    });  
+    });
+
+    logEvents.on("message", (data) => {
+        viewNamespace.emit("message", data);
+    });
 };
